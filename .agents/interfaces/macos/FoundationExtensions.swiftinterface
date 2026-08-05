@@ -1,7 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 6.4 effective-5.10 (swiftlang-6.4.0.25.4 clang-2100.3.25.1)
-// swift-module-flags: -target arm64-apple-macos12.0 -enable-objc-interop -language-mode 5 -O -enable-experimental-feature DebugDescriptionMacro -module-name FoundationExtensions
-// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.4
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-macosx10.15 -enable-objc-interop -swift-version 5 -O -module-name FoundationExtensions
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
 @_exported import Capture
 import Combine
 @_exported import CombineExtensions
@@ -13,13 +13,13 @@ import Swift
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-extension Swift::Collection {
-  @inlinable public var isNotEmpty: Swift::Bool {
+extension Swift.Collection {
+  @inlinable public var isNotEmpty: Swift.Bool {
     get { !self.isEmpty }
   }
 }
-extension Swift::Array {
-  @inlinable public subscript(safe index: Swift::Array<Element>.Swift::Index?) -> Element? {
+extension Swift.Array {
+  @inlinable public subscript(safe index: Swift.Array<Element>.Index?) -> Element? {
     get {
       guard let index = index else { return nil }
       return self[safe: index]
@@ -29,7 +29,7 @@ extension Swift::Array {
       self[safe: index] = newValue
     }
   }
-  @inlinable public subscript(safe index: Swift::Array<Element>.Swift::Index) -> Element? {
+  @inlinable public subscript(safe index: Swift.Array<Element>.Index) -> Element? {
     get {
       guard
         index >= startIndex,
@@ -46,65 +46,65 @@ extension Swift::Array {
       return self[index] = value
     }
   }
-  @inlinable public mutating func bringFront(elementsSatisfying predicate: (Element) -> Swift::Bool) {
+  @inlinable public mutating func bringFront(elementsSatisfying predicate: (Element) -> Swift.Bool) {
     let leftHalf = self.filter { predicate($0) }
     let rightHalf = self.filter { !predicate($0) }
     self = leftHalf + rightHalf
   }
 }
-extension Foundation::Bundle {
-  @inlinable public var appVersionNumber: Swift::String? {
+extension Foundation.Bundle {
+  @inlinable public var appVersionNumber: Swift.String? {
     get { infoDictionary?["CFBundleShortVersionString"] as? String }
   }
-  @inlinable public var buildVersionNumber: Swift::String? {
+  @inlinable public var buildVersionNumber: Swift.String? {
     get { infoDictionary?["CFBundleVersion"] as? String }
   }
-  @inlinable public var teamIdentifierPrefix: Swift::String? {
+  @inlinable public var teamIdentifierPrefix: Swift.String? {
     get { infoDictionary?["TeamIdentifierPrefix"] as? String }
   }
-  @inlinable public var keyPrefix: Swift::String {
+  @inlinable public var keyPrefix: Swift.String {
     get {
     return bundleIdentifier.map { $0.appending(".") }.or("")
   }
   }
-  @inlinable public func makeKey(_ key: Swift::String) -> Swift::String {
+  @inlinable public func makeKey(_ key: Swift.String) -> Swift.String {
     return keyPrefix.appending(key)
   }
-  @inlinable public func appGroupID(for teamIdentifier: Swift::String) -> Swift::String? {
+  @inlinable public func appGroupID(for teamIdentifier: Swift.String) -> Swift.String? {
     return teamIdentifierPrefix.map { "\($0)\(teamIdentifier)" }
   }
 }
-extension Dispatch::DispatchTimeInterval {
-  @inlinable public static func interval(_ value: Foundation::TimeInterval) -> Dispatch::DispatchTimeInterval {
+extension Dispatch.DispatchTimeInterval {
+  @inlinable public static func interval(_ value: Foundation.TimeInterval) -> Dispatch.DispatchTimeInterval {
     return .nanoseconds(Int(value * pow(10, 9)))
   }
 }
-extension Dispatch::DispatchTime : Swift::ExpressibleByFloatLiteral {
-  @inlinable public static func interval(_ interval: Foundation::TimeInterval) -> Dispatch::DispatchTime {
+extension Dispatch.DispatchTime : Swift.ExpressibleByFloatLiteral {
+  @inlinable public static func interval(_ interval: Foundation.TimeInterval) -> Dispatch.DispatchTime {
     return .now() + .interval(interval)
   }
-  @inlinable public init(floatLiteral value: Foundation::TimeInterval) {
+  @inlinable public init(floatLiteral value: Foundation.TimeInterval) {
     self = .interval(value)
   }
-  public typealias FloatLiteralType = Foundation::TimeInterval
+  public typealias FloatLiteralType = Foundation.TimeInterval
 }
-extension Swift::FloatingPoint {
+extension Swift.FloatingPoint {
   public func progress(in total: Self) -> Self
 }
-extension Foundation::NSLocking {
+extension Foundation.NSLocking {
   @inlinable public func store<T>(_ value: T, in object: inout T) {
     mutate(&object, with: { $0 = value })
   }
-  @inlinable public func mutate<T>(_ object: T, with closure: (T) -> Swift::Void) where T : AnyObject {
+  @inlinable public func mutate<T>(_ object: T, with closure: (T) -> Swift.Void) where T : AnyObject {
     execute { closure(object) }
   }
-  @inlinable public func mutate<T>(_ object: inout T, with closure: (inout T) -> Swift::Void) {
+  @inlinable public func mutate<T>(_ object: inout T, with closure: (inout T) -> Swift.Void) {
     execute { closure(&object) }
   }
-  @inlinable public func assign<T, Value>(_ value: Value, to keyPath: Swift::ReferenceWritableKeyPath<T, Value>, on object: T) where T : AnyObject {
+  @inlinable public func assign<T, Value>(_ value: Value, to keyPath: Swift.ReferenceWritableKeyPath<T, Value>, on object: T) where T : AnyObject {
     execute { object[keyPath: keyPath] = value }
   }
-  @inlinable public func assign<T, Value>(_ value: Value, to keyPath: Swift::WritableKeyPath<T, Value>, on object: inout T) {
+  @inlinable public func assign<T, Value>(_ value: Value, to keyPath: Swift.WritableKeyPath<T, Value>, on object: inout T) {
     execute { object[keyPath: keyPath] = value }
   }
   @discardableResult
@@ -113,8 +113,8 @@ extension Foundation::NSLocking {
     return closure()
   }
 }
-extension Swift::Optional {
-  @inlinable public func orThrow(_ error: @autoclosure () -> any Swift::Error) throws -> Wrapped {
+extension Swift.Optional {
+  @inlinable public func orThrow(_ error: @autoclosure () -> any Swift.Error) throws -> Wrapped {
     switch self {
     case .some(let wrapped):
       return wrapped
@@ -122,7 +122,7 @@ extension Swift::Optional {
       throw error()
     }
   }
-  @inlinable public var isNil: Swift::Bool {
+  @inlinable public var isNil: Swift.Bool {
     get {
     switch self {
     case .none: return true
@@ -130,7 +130,7 @@ extension Swift::Optional {
     }
   }
   }
-  @inlinable public var isNotNil: Swift::Bool {
+  @inlinable public var isNotNil: Swift.Bool {
     get { !isNil }
   }
   @inlinable public func or(_ value: @autoclosure () -> Wrapped) -> Wrapped {
@@ -139,7 +139,7 @@ extension Swift::Optional {
   @inlinable public func or(_ value: @autoclosure () -> Wrapped?) -> Wrapped? {
     self ?? value()
   }
-  @inlinable public func unwrap(function: Swift::String = #function, file: Swift::String = #filePath, line: Swift::Int = #line) -> Swift::Result<Wrapped, FoundationExtensions::UnwrappingError<Wrapped>> {
+  @inlinable public func unwrap(function: Swift.String = #function, file: Swift.String = #filePath, line: Swift.Int = #line) -> Swift.Result<Wrapped, FoundationExtensions.UnwrappingError<Wrapped>> {
     switch self {
     case .some(let value):
       return .success(value)
@@ -152,30 +152,30 @@ extension Swift::Optional {
       )
     }
   }
-  @inlinable public func assign<T>(to keyPath: Swift::ReferenceWritableKeyPath<T, Wrapped>, on target: T) { map { target[keyPath: keyPath] = $0 } }
-  @inlinable public func assign<T>(to keyPath: Swift::ReferenceWritableKeyPath<T, Swift::Optional<Wrapped>>, on target: T) { target[keyPath: keyPath] = self }
+  @inlinable public func assign<T>(to keyPath: Swift.ReferenceWritableKeyPath<T, Wrapped>, on target: T) { map { target[keyPath: keyPath] = $0 } }
+  @inlinable public func assign<T>(to keyPath: Swift.ReferenceWritableKeyPath<T, Swift.Optional<Wrapped>>, on target: T) { target[keyPath: keyPath] = self }
 }
-extension Swift::Optional where Wrapped : Swift::Collection {
-  @inlinable public var isNilOrEmpty: Swift::Bool {
+extension Swift.Optional where Wrapped : Swift.Collection {
+  @inlinable public var isNilOrEmpty: Swift.Bool {
     get {
     map(\.isEmpty).or(true)
   }
   }
 }
-extension Swift::ClosedRange where Bound : Swift::FloatingPoint {
+extension Swift.ClosedRange where Bound : Swift.FloatingPoint {
   public var length: Bound {
     get
   }
 }
-extension Swift::ClosedRange where Bound : Swift::BinaryInteger {
+extension Swift.ClosedRange where Bound : Swift.BinaryInteger {
   public var length: Bound {
     get
   }
 }
-extension Swift::ClosedRange {
+extension Swift.ClosedRange {
   public func clamped(_ value: Bound) -> Bound
 }
-extension Swift::Result {
+extension Swift.Result {
   @inlinable public var value: Success? {
     get {
     switch self {
@@ -192,13 +192,13 @@ extension Swift::Result {
     }
   }
   }
-  @inlinable public func eraseError() -> Swift::Result<Success, any Swift::Error> {
+  @inlinable public func eraseError() -> Swift.Result<Success, any Swift.Error> {
     mapError { $0 as Error }
   }
-  @inlinable public func replaceError(with success: Success) -> Swift::Result<Success, Swift::Never> {
+  @inlinable public func replaceError(with success: Success) -> Swift.Result<Success, Swift.Never> {
     replaceError { _ in success }
   }
-  @inlinable public func replaceError(with closure: (any Swift::Error) -> Success) -> Swift::Result<Success, Swift::Never> {
+  @inlinable public func replaceError(with closure: (any Swift.Error) -> Success) -> Swift.Result<Success, Swift.Never> {
     switch self {
     case .success(let value):
       return .success(value)
@@ -207,8 +207,8 @@ extension Swift::Result {
     }
   }
 }
-extension Swift::String {
-  @inlinable public func ranges(of substring: Swift::String, options: Swift::String.Foundation::CompareOptions = [], locale: Foundation::Locale? = nil) -> [Swift::Range<Swift::String.Swift::Index>] {
+extension Swift.String {
+  @inlinable public func ranges(of substring: Swift.String, options: Swift.String.CompareOptions = [], locale: Foundation.Locale? = nil) -> [Swift.Range<Swift.String.Index>] {
     var ranges: [Range<Index>] = []
     while
       let range = range(
@@ -224,12 +224,12 @@ extension Swift::String {
 }
 public protocol AssociatingObject : AnyObject {
   @discardableResult
-  @inlinable func setAssociatedObject<Object>(_ object: Object, forKey key: Swift::StaticString, policy: ObjectiveC::objc_AssociationPolicy) -> Swift::Bool
-  @inlinable func getAssociatedObject<Object>(of type: Object.Type, forKey key: Swift::StaticString) -> Object?
+  @inlinable func setAssociatedObject<Object>(_ object: Object, forKey key: Swift.StaticString, policy: ObjectiveC.objc_AssociationPolicy) -> Swift.Bool
+  @inlinable func getAssociatedObject<Object>(of type: Object.Type, forKey key: Swift.StaticString) -> Object?
 }
-extension FoundationExtensions::AssociatingObject {
+extension FoundationExtensions.AssociatingObject {
   @discardableResult
-  @inlinable public func setAssociatedObject<Object>(_ object: Object, forKey key: Swift::StaticString, policy: ObjectiveC::objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) -> Swift::Bool {
+  @inlinable public func setAssociatedObject<Object>(_ object: Object, forKey key: Swift.StaticString, policy: ObjectiveC.objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) -> Swift.Bool {
     return _setAssociatedObject(
       object,
       to: self,
@@ -237,7 +237,7 @@ extension FoundationExtensions::AssociatingObject {
       policy: policy
     )
   }
-  @inlinable public func getAssociatedObject<Object>(of type: Object.Type = Object.self, forKey key: Swift::StaticString) -> Object? {
+  @inlinable public func getAssociatedObject<Object>(of type: Object.Type = Object.self, forKey key: Swift.StaticString) -> Object? {
     return _getAssociatedObject(
       forKey: key,
       from: self
@@ -245,7 +245,7 @@ extension FoundationExtensions::AssociatingObject {
   }
 }
 @discardableResult
-@inlinable public func _setAssociatedObject<Object>(_ object: Object, to associatingObject: Swift::AnyObject, forKey key: Swift::StaticString, policy: ObjectiveC::objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) -> Swift::Bool {
+@inlinable public func _setAssociatedObject<Object>(_ object: Object, to associatingObject: Swift.AnyObject, forKey key: Swift.StaticString, policy: ObjectiveC.objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC) -> Swift.Bool {
   key.withUTF8Buffer { pointer in
     if let p = pointer.baseAddress.map(UnsafeRawPointer.init) {
       objc_setAssociatedObject(associatingObject, p, object, policy)
@@ -255,7 +255,7 @@ extension FoundationExtensions::AssociatingObject {
     }
   }
 }
-@inlinable public func _getAssociatedObject<Object>(of type: Object.Type = Object.self, forKey key: Swift::StaticString, from associatingObject: Swift::AnyObject) -> Object? {
+@inlinable public func _getAssociatedObject<Object>(of type: Object.Type = Object.self, forKey key: Swift.StaticString, from associatingObject: Swift.AnyObject) -> Object? {
   key.withUTF8Buffer { pointer in
     if let p = pointer.baseAddress.map(UnsafeRawPointer.init) {
       return objc_getAssociatedObject(associatingObject, p).flatMap { $0 as? Object }
@@ -264,9 +264,9 @@ extension FoundationExtensions::AssociatingObject {
     }
   }
 }
-extension ObjectiveC::NSObject : FoundationExtensions::AssociatingObject {
+extension ObjectiveC.NSObject : FoundationExtensions.AssociatingObject {
 }
-@propertyWrapper @dynamicMemberLookup final public class Box<Content> : Capture::Weakifiable {
+@propertyWrapper @dynamicMemberLookup final public class Box<Content> : Capture.Weakifiable {
   final public var content: Content
   @inlinable final public var wrappedValue: Content {
     get { content }
@@ -279,32 +279,32 @@ extension ObjectiveC::NSObject : FoundationExtensions::AssociatingObject {
     self.init(wrappedValue: wrappedValue)
   }
   public init(wrappedValue: Content)
-  @inlinable final public var projectedValue: FoundationExtensions::Reference<Content> {
+  @inlinable final public var projectedValue: FoundationExtensions.Reference<Content> {
     get { reference }
   }
-  @inlinable final public var reference: FoundationExtensions::Reference<Content> {
+  @inlinable final public var reference: FoundationExtensions.Reference<Content> {
     get {
     .object(self, keyPath: \.wrappedValue)
   }
   }
-  @inlinable final public subscript<U>(dynamicMember keyPath: Swift::KeyPath<Content, U>) -> U {
+  @inlinable final public subscript<U>(dynamicMember keyPath: Swift.KeyPath<Content, U>) -> U {
     get { self.wrappedValue[keyPath: keyPath] }
   }
-  @inlinable final public subscript<U>(dynamicMember keyPath: Swift::WritableKeyPath<Content, U>) -> U {
+  @inlinable final public subscript<U>(dynamicMember keyPath: Swift.WritableKeyPath<Content, U>) -> U {
     get { self.wrappedValue[keyPath: keyPath] }
     set { self.wrappedValue[keyPath: keyPath] = newValue }
   }
-  @inlinable final public subscript<U>(dynamicMember keyPath: Swift::ReferenceWritableKeyPath<Content, U>) -> U {
+  @inlinable final public subscript<U>(dynamicMember keyPath: Swift.ReferenceWritableKeyPath<Content, U>) -> U {
     get { self.wrappedValue[keyPath: keyPath] }
     set { self.wrappedValue[keyPath: keyPath] = newValue }
   }
   @objc deinit
 }
-extension FoundationExtensions::ReadonlyReference {
-  @inlinable public static func constant(_ value: Value) -> FoundationExtensions::ReadonlyReference<Value> {
+extension FoundationExtensions.ReadonlyReference {
+  @inlinable public static func constant(_ value: Value) -> FoundationExtensions.ReadonlyReference<Value> {
     ReadonlyReference { value }
   }
-  @inlinable public static func object<Object>(_ object: Object, read: @escaping (Object) -> Value) -> FoundationExtensions::ReadonlyReference<Value> where Object : AnyObject {
+  @inlinable public static func object<Object>(_ object: Object, read: @escaping (Object) -> Value) -> FoundationExtensions.ReadonlyReference<Value> where Object : AnyObject {
     ReadonlyReference(read: { read(object) })
   }
 }
@@ -320,25 +320,25 @@ extension FoundationExtensions::ReadonlyReference {
     self._read()
   }
   }
-  @inlinable public var projectedValue: FoundationExtensions::ReadonlyReference<Value> {
+  @inlinable public var projectedValue: FoundationExtensions.ReadonlyReference<Value> {
     get {
     ReadonlyReference(read: _read)
   }
   }
-  @inlinable public var asWritable: FoundationExtensions::Reference<Value> {
+  @inlinable public var asWritable: FoundationExtensions.Reference<Value> {
     get {
     Reference(read: _read, write: { _ in })
   }
   }
-  @inlinable public func writable(with write: @escaping (Value) -> Swift::Void) -> FoundationExtensions::Reference<Value> {
+  @inlinable public func writable(with write: @escaping (Value) -> Swift.Void) -> FoundationExtensions.Reference<Value> {
     Reference(read: _read, write: write)
   }
-  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Reference<LocalValue> {
+  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Reference<LocalValue> {
     get {
     .readonly { wrappedValue[keyPath: keyPath] }
   }
   }
-  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift::ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Reference<LocalValue> {
+  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift.ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Reference<LocalValue> {
     get {
     Reference(
       read: { _read()[keyPath: keyPath] },
@@ -346,23 +346,23 @@ extension FoundationExtensions::ReadonlyReference {
   }
   }
 }
-extension FoundationExtensions::Reference {
-  @inlinable public static func readonly(_ read: @escaping () -> Value) -> FoundationExtensions::Reference<Value> {
+extension FoundationExtensions.Reference {
+  @inlinable public static func readonly(_ read: @escaping () -> Value) -> FoundationExtensions.Reference<Value> {
     Reference(read: read, write: { _ in })
   }
-  @inlinable public static func object<Object>(_ object: Object, read: @escaping (Object) -> Value) -> FoundationExtensions::Reference<Value> where Object : AnyObject {
+  @inlinable public static func object<Object>(_ object: Object, read: @escaping (Object) -> Value) -> FoundationExtensions.Reference<Value> where Object : AnyObject {
     .readonly { read(object) }
   }
-  @inlinable public static func object<Object>(_ object: Object, keyPath: Swift::ReferenceWritableKeyPath<Object, Value>) -> FoundationExtensions::Reference<Value> where Object : AnyObject {
+  @inlinable public static func object<Object>(_ object: Object, keyPath: Swift.ReferenceWritableKeyPath<Object, Value>) -> FoundationExtensions.Reference<Value> where Object : AnyObject {
     Reference(
       read: { object[keyPath: keyPath] },
       write: { object[keyPath: keyPath] = $0 }
     )
   }
-  @inlinable public static func variable(_ initialValue: Value) -> FoundationExtensions::Reference<Value> {
+  @inlinable public static func variable(_ initialValue: Value) -> FoundationExtensions.Reference<Value> {
     Reference(wrappedValue: initialValue)
   }
-  @inlinable public static func constant(_ value: Value) -> FoundationExtensions::Reference<Value> {
+  @inlinable public static func constant(_ value: Value) -> FoundationExtensions.Reference<Value> {
     .readonly { value }
   }
 }
@@ -370,9 +370,9 @@ extension FoundationExtensions::Reference {
   @usableFromInline
   internal var _read: () -> Value
   @usableFromInline
-  internal var _write: (Value) -> Swift::Void
-  internal var subject: FoundationExtensions::ReferenceSubject<Value>
-  public var publisher: Combine::AnyPublisher<Value, Swift::Never> {
+  internal var _write: (Value) -> Swift.Void
+  internal var subject: FoundationExtensions.ReferenceSubject<Value>
+  public var publisher: Combine.AnyPublisher<Value, Swift.Never> {
     get
   }
   @inlinable public init(wrappedValue: Value) {
@@ -382,27 +382,27 @@ extension FoundationExtensions::Reference {
       write: { value = $0 }
     )
   }
-  public init(read: @escaping () -> Value, write: @escaping (Value) -> Swift::Void)
+  public init(read: @escaping () -> Value, write: @escaping (Value) -> Swift.Void)
   @inlinable public func read() -> Value { _read() }
   @inlinable public func write(_ value: Value) { _write(value) }
   @inlinable public var wrappedValue: Value {
     get { _read() }
     nonmutating set { _write(newValue) }
   }
-  @inlinable public var projectedValue: FoundationExtensions::Reference<Value> {
+  @inlinable public var projectedValue: FoundationExtensions.Reference<Value> {
     get {
     Reference(read: _read, write: _write)
   }
   }
-  @inlinable public var readonly: FoundationExtensions::ReadonlyReference<Value> {
+  @inlinable public var readonly: FoundationExtensions.ReadonlyReference<Value> {
     get { ReadonlyReference(read: _read) }
   }
-  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Reference<LocalValue> {
+  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Reference<LocalValue> {
     get {
     .readonly { wrappedValue[keyPath: keyPath] }
   }
   }
-  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift::WritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Reference<LocalValue> {
+  @inlinable public subscript<LocalValue>(dynamicMember keyPath: Swift.WritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Reference<LocalValue> {
     get {
     Reference<LocalValue>(
       read: { _read()[keyPath: keyPath] },
@@ -415,212 +415,212 @@ extension FoundationExtensions::Reference {
   }
   }
 }
-extension FoundationExtensions::Reference {
-  public func map<T>(read: @escaping (Value) -> T, write: @escaping (T) -> Value) -> FoundationExtensions::Reference<T>
-  public func onSet(perform action: @escaping (Value) -> Swift::Void) -> FoundationExtensions::Reference<Value>
-  public func onChange(perform action: @escaping (Value) -> Swift::Void) -> FoundationExtensions::Reference<Value> where Value : Swift::Equatable
+extension FoundationExtensions.Reference {
+  public func map<T>(read: @escaping (Value) -> T, write: @escaping (T) -> Value) -> FoundationExtensions.Reference<T>
+  public func onSet(perform action: @escaping (Value) -> Swift.Void) -> FoundationExtensions.Reference<Value>
+  public func onChange(perform action: @escaping (Value) -> Swift.Void) -> FoundationExtensions.Reference<Value> where Value : Swift.Equatable
 }
 public protocol ReferenceProvider : AnyObject {
 }
-extension FoundationExtensions::ReferenceProvider {
-  @inlinable public func reference<Value>(for keyPath: Swift::KeyPath<Self, Value>) -> FoundationExtensions::ReadonlyReference<Value> {
+extension FoundationExtensions.ReferenceProvider {
+  @inlinable public func reference<Value>(for keyPath: Swift.KeyPath<Self, Value>) -> FoundationExtensions.ReadonlyReference<Value> {
     .object(self, read: { $0[keyPath: keyPath] })
   }
-  @inlinable public func reference<Value>(for keyPath: Swift::ReferenceWritableKeyPath<Self, Value>) -> FoundationExtensions::Reference<Value> {
+  @inlinable public func reference<Value>(for keyPath: Swift.ReferenceWritableKeyPath<Self, Value>) -> FoundationExtensions.Reference<Value> {
     .object(self, keyPath: keyPath)
   }
 }
-extension ObjectiveC::NSObject : FoundationExtensions::ReferenceProvider {
+extension ObjectiveC.NSObject : FoundationExtensions.ReferenceProvider {
 }
 public protocol Castable {
   func `as`<T>(_ type: T.Type) -> T?
-  func `is`<T>(_ type: T.Type) -> Swift::Bool
+  func `is`<T>(_ type: T.Type) -> Swift.Bool
 }
-extension FoundationExtensions::Castable {
+extension FoundationExtensions.Castable {
   public func `as`<T>(_ type: T.Type) -> T?
-  public func `is`<T>(_ type: T.Type) -> Swift::Bool
+  public func `is`<T>(_ type: T.Type) -> Swift.Bool
 }
-extension Swift::Optional : FoundationExtensions::Castable {
+extension Swift.Optional : FoundationExtensions.Castable {
 }
-extension ObjectiveC::NSObject : FoundationExtensions::Castable {
+extension ObjectiveC.NSObject : FoundationExtensions.Castable {
 }
-public struct CodingKeys : Swift::CodingKey {
-  public var stringValue: Swift::String
-  @_hasInitialValue public var intValue: Swift::Int?
-  public init(stringValue: Swift::String)
-  public init?(intValue: Swift::Int)
-  public static func custom(_ value: Swift::String) -> FoundationExtensions::CodingKeys
+public struct CodingKeys : Swift.CodingKey {
+  public var stringValue: Swift.String
+  @_hasInitialValue public var intValue: Swift.Int?
+  public init(stringValue: Swift.String)
+  public init?(intValue: Swift.Int)
+  public static func custom(_ value: Swift.String) -> FoundationExtensions.CodingKeys
 }
-extension FoundationExtensions::CodingKeys : Swift::ExpressibleByStringLiteral {
-  public init(stringLiteral value: Swift::String)
-  public typealias ExtendedGraphemeClusterLiteralType = Swift::String
-  public typealias StringLiteralType = Swift::String
-  public typealias UnicodeScalarLiteralType = Swift::String
+extension FoundationExtensions.CodingKeys : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.String)
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias StringLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
 }
-extension FoundationExtensions::Equated {
+extension FoundationExtensions.Equated {
   public struct Comparator {
-    public let compare: (Value, Value) -> Swift::Bool
+    public let compare: (Value, Value) -> Swift.Bool
   }
 }
-extension FoundationExtensions::Equated.FoundationExtensions::Comparator {
-  public static func custom(_ compare: @escaping (Value, Value) -> Swift::Bool) -> FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator
-  public static func property<Property>(_ scope: @escaping (Value) -> Property) -> FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator where Property : Swift::Equatable
-  public static func wrappedProperty<Wrapped, Property>(_ scope: @escaping (Wrapped) -> Property) -> FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator where Value == Wrapped?, Property : Swift::Equatable
-  public static var dump: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator {
+extension FoundationExtensions.Equated.Comparator {
+  public static func custom(_ compare: @escaping (Value, Value) -> Swift.Bool) -> FoundationExtensions.Equated<Value>.Comparator
+  public static func property<Property>(_ scope: @escaping (Value) -> Property) -> FoundationExtensions.Equated<Value>.Comparator where Property : Swift.Equatable
+  public static func wrappedProperty<Wrapped, Property>(_ scope: @escaping (Wrapped) -> Property) -> FoundationExtensions.Equated<Value>.Comparator where Value == Wrapped?, Property : Swift.Equatable
+  public static var dump: FoundationExtensions.Equated<Value>.Comparator {
     get
   }
-  public static var typedDump: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator {
-    get
-  }
-}
-extension FoundationExtensions::Equated.FoundationExtensions::Comparator where Value : Swift::Error {
-  public static var localizedDescription: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator {
+  public static var typedDump: FoundationExtensions.Equated<Value>.Comparator {
     get
   }
 }
-@propertyWrapper public struct Equated<Value> : Swift::Equatable {
-  public init<T>(compare comparator: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator) where Value == T?
-  public init(_ wrappedValue: Value, compare comparator: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator)
-  public init(wrappedValue: Value, compare comparator: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator)
+extension FoundationExtensions.Equated.Comparator where Value : Swift.Error {
+  public static var localizedDescription: FoundationExtensions.Equated<Value>.Comparator {
+    get
+  }
+}
+@propertyWrapper public struct Equated<Value> : Swift.Equatable {
+  public init<T>(compare comparator: FoundationExtensions.Equated<Value>.Comparator) where Value == T?
+  public init(_ wrappedValue: Value, compare comparator: FoundationExtensions.Equated<Value>.Comparator)
+  public init(wrappedValue: Value, compare comparator: FoundationExtensions.Equated<Value>.Comparator)
   public var wrappedValue: Value
-  public var comparator: FoundationExtensions::Equated<Value>.FoundationExtensions::Comparator
-  public static func == (lhs: FoundationExtensions::Equated<Value>, rhs: FoundationExtensions::Equated<Value>) -> Swift::Bool
+  public var comparator: FoundationExtensions.Equated<Value>.Comparator
+  public static func == (lhs: FoundationExtensions.Equated<Value>, rhs: FoundationExtensions.Equated<Value>) -> Swift.Bool
 }
-extension FoundationExtensions::Equated where Value : Swift::Equatable {
-  public init<T>() where Value == T?, T : Swift::Equatable
+extension FoundationExtensions.Equated where Value : Swift.Equatable {
+  public init<T>() where Value == T?, T : Swift.Equatable
   public init(wrappedValue: Value)
 }
-extension FoundationExtensions::Equated : Swift::Error where Value : Swift::Error {
+extension FoundationExtensions.Equated : Swift.Error where Value : Swift.Error {
   public init(_ wrappedValue: Value)
   public init(wrappedValue: Value)
-  public var localizedDescription: Swift::String {
+  public var localizedDescription: Swift.String {
     get
   }
 }
-extension FoundationExtensions::Equated : Swift::Hashable where Value : Swift::Hashable {
-  public func hash(into hasher: inout Swift::Hasher)
-  public var hashValue: Swift::Int {
+extension FoundationExtensions.Equated : Swift.Hashable where Value : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
     get
   }
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension FoundationExtensions::Equated : Swift::Identifiable where Value : Swift::Identifiable {
+extension FoundationExtensions.Equated : Swift.Identifiable where Value : Swift.Identifiable {
   public var id: Value.ID {
     get
   }
-  @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+  @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
   public typealias ID = Value.ID
 }
 @propertyWrapper @dynamicMemberLookup public struct Indirect<Value> {
-  private var storage: FoundationExtensions::Indirect<Value>.FoundationExtensions::Storage
+  private var storage: FoundationExtensions.Indirect<Value>.Storage
   public init(_ value: Value)
   public init(wrappedValue: Value)
   public var wrappedValue: Value {
     get
     set
   }
-  public subscript<T>(dynamicMember keyPath: Swift::KeyPath<Value, T>) -> T {
+  public subscript<T>(dynamicMember keyPath: Swift.KeyPath<Value, T>) -> T {
     get
   }
-  public subscript<T>(dynamicMember keyPath: Swift::WritableKeyPath<Value, T>) -> T {
+  public subscript<T>(dynamicMember keyPath: Swift.WritableKeyPath<Value, T>) -> T {
     get
     set
   }
 }
-extension FoundationExtensions::Indirect : Swift::Comparable where Value : Swift::Comparable {
-  public static func < (lhs: FoundationExtensions::Indirect<Value>, rhs: FoundationExtensions::Indirect<Value>) -> Swift::Bool
+extension FoundationExtensions.Indirect : Swift.Comparable where Value : Swift.Comparable {
+  public static func < (lhs: FoundationExtensions.Indirect<Value>, rhs: FoundationExtensions.Indirect<Value>) -> Swift.Bool
 }
-extension FoundationExtensions::Indirect : Swift::Hashable where Value : Swift::Hashable {
-  public func hash(into hasher: inout Swift::Hasher)
-  public var hashValue: Swift::Int {
+extension FoundationExtensions.Indirect : Swift.Hashable where Value : Swift.Hashable {
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
     get
   }
 }
-extension FoundationExtensions::Indirect : Swift::Equatable where Value : Swift::Equatable {
-  public static func == (lhs: FoundationExtensions::Indirect<Value>, rhs: FoundationExtensions::Indirect<Value>) -> Swift::Bool
+extension FoundationExtensions.Indirect : Swift.Equatable where Value : Swift.Equatable {
+  public static func == (lhs: FoundationExtensions.Indirect<Value>, rhs: FoundationExtensions.Indirect<Value>) -> Swift.Bool
 }
-extension FoundationExtensions::Indirect : Swift::Codable where Value : Swift::Decodable, Value : Swift::Encodable {
-  public init(from decoder: any Swift::Decoder) throws
-  public func encode(to encoder: any Swift::Encoder) throws
+extension FoundationExtensions.Indirect : Swift.Codable where Value : Swift.Decodable, Value : Swift.Encodable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
 }
 @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
-extension FoundationExtensions::Indirect : Swift::Identifiable where Value : Swift::Identifiable {
+extension FoundationExtensions.Indirect : Swift.Identifiable where Value : Swift.Identifiable {
   public var id: Value.ID {
     get
   }
-  @available(macOS 10.15, iOS 13, tvOS 13, watchOS 6, *)
+  @available(iOS 13, tvOS 13, watchOS 6, macOS 10.15, *)
   public typealias ID = Value.ID
 }
 @propertyWrapper public struct PropertyProxy<Object, Value> where Object : AnyObject {
-  public static subscript(_enclosingInstance instance: Object, wrapped wrappedKeyPath: Swift::ReferenceWritableKeyPath<Object, Value>, storage storageKeyPath: Swift::ReferenceWritableKeyPath<Object, FoundationExtensions::PropertyProxy<Object, Value>>) -> Value {
+  public static subscript(_enclosingInstance instance: Object, wrapped wrappedKeyPath: Swift.ReferenceWritableKeyPath<Object, Value>, storage storageKeyPath: Swift.ReferenceWritableKeyPath<Object, FoundationExtensions.PropertyProxy<Object, Value>>) -> Value {
     get
     set
   }
-  private let path: FunctionalKeyPath::FunctionalKeyPath<Object, Value>
+  private let path: FunctionalKeyPath.FunctionalKeyPath<Object, Value>
   @available(*, unavailable, message: "@ObjectProxy can only be applied to classes")
   public var wrappedValue: Value {
     get
     set
   }
-  public init(_ path: FunctionalKeyPath::FunctionalKeyPath<Object, Value>)
-  public init(_ keyPath: Swift::ReferenceWritableKeyPath<Object, Value>)
+  public init(_ path: FunctionalKeyPath.FunctionalKeyPath<Object, Value>)
+  public init(_ keyPath: Swift.ReferenceWritableKeyPath<Object, Value>)
 }
-extension FoundationExtensions::Resettable where Object : Swift::Collection {
-  public var collection: FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableCollectionProxy<Object> {
+extension FoundationExtensions.Resettable where Object : Swift.Collection {
+  public var collection: FoundationExtensions.Resettable<Object>.WritableCollectionProxy<Object> {
     get
   }
 }
-extension FoundationExtensions::Resettable {
-  public struct WritableCollectionProxy<Collection> where Collection : Swift::Collection {
-    internal var resettable: FoundationExtensions::Resettable<Object>
-    internal var keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Collection>
-    public subscript(idx: Collection.Index) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<Collection.Element> {
+extension FoundationExtensions.Resettable {
+  public struct WritableCollectionProxy<Collection> where Collection : Swift.Collection {
+    internal var resettable: FoundationExtensions.Resettable<Object>
+    internal var keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Collection>
+    public subscript(idx: Collection.Index) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<Collection.Element> {
       get
     }
-    public subscript(idx: Collection.Index) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<Collection.Element> where Collection : Swift::MutableCollection {
+    public subscript(idx: Collection.Index) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<Collection.Element> where Collection : Swift.MutableCollection {
       get
     }
-    public subscript<T>(safe idx: Swift::Array<T>.Swift::Index) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<Swift::Array<T>.Swift::Element?> where Collection == [T] {
+    public subscript<T>(safe idx: Swift.Array<T>.Index) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<Swift.Array<T>.Element?> where Collection == [T] {
       get
     }
   }
-  public struct CollectionProxy<Collection> where Collection : Swift::Collection {
-    internal var resettable: FoundationExtensions::Resettable<Object>
-    internal var keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Collection>
-    public subscript(idx: Collection.Index) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<Collection.Element> {
+  public struct CollectionProxy<Collection> where Collection : Swift.Collection {
+    internal var resettable: FoundationExtensions.Resettable<Object>
+    internal var keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Collection>
+    public subscript(idx: Collection.Index) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<Collection.Element> {
       get
     }
-    public subscript<T>(safe idx: Swift::Array<T>.Swift::Index) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<Swift::Array<T>.Swift::Element?> where Collection == [T] {
+    public subscript<T>(safe idx: Swift.Array<T>.Index) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<Swift.Array<T>.Element?> where Collection == [T] {
       get
     }
   }
 }
-extension FoundationExtensions::Resettable.FoundationExtensions::WritableCollectionProxy {
+extension FoundationExtensions.Resettable.WritableCollectionProxy {
   @discardableResult
-  public func swapAt<T>(_ idx1: Swift::Array<T>.Swift::Index, _ idx2: Swift::Array<T>.Swift::Index, operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default) -> FoundationExtensions::Resettable<Object> where Collection == [T]
+  public func swapAt<T>(_ idx1: Swift.Array<T>.Index, _ idx2: Swift.Array<T>.Index, operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default) -> FoundationExtensions.Resettable<Object> where Collection == [T]
   @discardableResult
-  public func remove<T>(at idx: Swift::Array<T>.Swift::Index, operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default) -> FoundationExtensions::Resettable<Object> where Collection == [T]
+  public func remove<T>(at idx: Swift.Array<T>.Index, operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default) -> FoundationExtensions.Resettable<Object> where Collection == [T]
   @discardableResult
-  public func insert<T>(_ element: Swift::Array<T>.Swift::Element, at idx: Swift::Array<T>.Swift::Index, operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default) -> FoundationExtensions::Resettable<Object> where Collection == [T]
+  public func insert<T>(_ element: Swift.Array<T>.Element, at idx: Swift.Array<T>.Index, operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default) -> FoundationExtensions.Resettable<Object> where Collection == [T]
   @discardableResult
-  public func append<T>(_ element: Swift::Array<T>.Swift::Element, operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default) -> FoundationExtensions::Resettable<Object> where Collection == [T]
+  public func append<T>(_ element: Swift.Array<T>.Element, operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default) -> FoundationExtensions.Resettable<Object> where Collection == [T]
 }
-extension FoundationExtensions::Resettable {
+extension FoundationExtensions.Resettable {
   @available(*, deprecated, message: "Might be removed due to Value type constraint, which makes the behavior unstable, consider re-implementing this feature locally if you need")
   public struct ValuesDump {
     public let items: [Object]
-    public let currentIndex: Swift::Int
+    public let currentIndex: Swift.Int
   }
 }
-extension FoundationExtensions::Resettable {
+extension FoundationExtensions.Resettable {
   public enum OperationBehavior {
     case `default`
     case amend
     case insert
     case inject
-    @_semantics("derived_enum_equals") @_implements(Swift::Equatable, ==(_:_:)) public static func __derived_enum_equals(_ a: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior, _ b: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior) -> Swift::Bool
-    public func hash(into hasher: inout Swift::Hasher)
-    public var hashValue: Swift::Int {
+    @_semantics("derived_enum_equals") @_implements(Swift.Equatable, ==(_:_:)) public static func __derived_enum_equals(_ a: FoundationExtensions.Resettable<Object>.OperationBehavior, _ b: FoundationExtensions.Resettable<Object>.OperationBehavior) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
       get
     }
   }
@@ -631,188 +631,188 @@ extension FoundationExtensions::Resettable {
   public var wrappedValue: Object {
     get
   }
-  public var projectedValue: FoundationExtensions::Resettable<Object> {
+  public var projectedValue: FoundationExtensions.Resettable<Object> {
     get
   }
-  private var pointer: FoundationExtensions::Resettable<Object>.FoundationExtensions::Pointer
+  private var pointer: FoundationExtensions.Resettable<Object>.Pointer
   @available(*, deprecated, message: "Might be removed due to Value type constraint, which makes the behavior unstable, consider re-implementing this feature locally if you need")
-  public func valuesDump() -> FoundationExtensions::Resettable<Object>.FoundationExtensions::ValuesDump
+  public func valuesDump() -> FoundationExtensions.Resettable<Object>.ValuesDump
   public func dump()
-  public func dump<TargetStream>(to stream: inout TargetStream) where TargetStream : Swift::TextOutputStream
+  public func dump<TargetStream>(to stream: inout TargetStream) where TargetStream : Swift.TextOutputStream
   @discardableResult
-  public func undo() -> FoundationExtensions::Resettable<Object>
+  public func undo() -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func redo() -> FoundationExtensions::Resettable<Object>
+  public func redo() -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func undo(_ count: Swift::Int) -> FoundationExtensions::Resettable<Object>
+  public func undo(_ count: Swift.Int) -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func redo(_ count: Swift::Int) -> FoundationExtensions::Resettable<Object>
+  public func redo(_ count: Swift.Int) -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func reset() -> FoundationExtensions::Resettable<Object>
+  public func reset() -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func restore() -> FoundationExtensions::Resettable<Object>
+  public func restore() -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func _modify<Value>(operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default, _ keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Value>, using action: @escaping (inout Value) -> Swift::Void) -> FoundationExtensions::Resettable<Object>
+  public func _modify<Value>(operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default, _ keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Value>, using action: @escaping (inout Value) -> Swift.Void) -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func _modify<Value>(operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default, _ keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Value>, using action: @escaping (inout Value) -> Swift::Void, undo: @escaping (inout Value) -> Swift::Void) -> FoundationExtensions::Resettable<Object>
+  public func _modify<Value>(operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default, _ keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Value>, using action: @escaping (inout Value) -> Swift.Void, undo: @escaping (inout Value) -> Swift.Void) -> FoundationExtensions.Resettable<Object>
   @discardableResult
-  public func _modify(operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default, using action: @escaping (inout Object) -> Swift::Void, undo: @escaping (inout Object) -> Swift::Void) -> FoundationExtensions::Resettable<Object>
-  public subscript<Value>(dynamicMember keyPath: Swift::WritableKeyPath<Object, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<Value> {
+  public func _modify(operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default, using action: @escaping (inout Object) -> Swift.Void, undo: @escaping (inout Object) -> Swift.Void) -> FoundationExtensions.Resettable<Object>
+  public subscript<Value>(dynamicMember keyPath: Swift.WritableKeyPath<Object, Value>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<Value> {
     get
   }
-  public subscript<Value>(dynamicMember keyPath: Swift::KeyPath<Object, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<Value> {
+  public subscript<Value>(dynamicMember keyPath: Swift.KeyPath<Object, Value>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<Value> {
     get
   }
-  public subscript<Value, Wrapped>(dynamicMember keyPath: Swift::WritableKeyPath<Wrapped, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<Value?> where Object == Wrapped? {
+  public subscript<Value, Wrapped>(dynamicMember keyPath: Swift.WritableKeyPath<Wrapped, Value>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<Value?> where Object == Wrapped? {
     get
   }
-  public subscript<Value, Wrapped>(dynamicMember keyPath: Swift::KeyPath<Wrapped, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<Value?> where Object == Wrapped? {
+  public subscript<Value, Wrapped>(dynamicMember keyPath: Swift.KeyPath<Wrapped, Value>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<Value?> where Object == Wrapped? {
     get
   }
-  public subscript<Value>(dynamicMember keyPath: Swift::WritableKeyPath<Object, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableCollectionProxy<Value> where Value : Swift::Collection {
+  public subscript<Value>(dynamicMember keyPath: Swift.WritableKeyPath<Object, Value>) -> FoundationExtensions.Resettable<Object>.WritableCollectionProxy<Value> where Value : Swift.Collection {
     get
   }
-  public subscript<Value>(dynamicMember keyPath: Swift::KeyPath<Object, Value>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::CollectionProxy<Value> where Value : Swift::Collection {
+  public subscript<Value>(dynamicMember keyPath: Swift.KeyPath<Object, Value>) -> FoundationExtensions.Resettable<Object>.CollectionProxy<Value> where Value : Swift.Collection {
     get
   }
   @objc deinit
 }
-extension FoundationExtensions::Resettable {
+extension FoundationExtensions.Resettable {
   @dynamicMemberLookup public struct KeyPathContainer<Value> {
-    internal let resettable: FoundationExtensions::Resettable<Object>
-    internal let keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Value>
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<LocalValue> {
+    internal let resettable: FoundationExtensions.Resettable<Object>
+    internal let keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Value>
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<LocalValue> {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<LocalValue> {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<LocalValue> {
       get
     }
-    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift::ReferenceWritableKeyPath<Wrapped, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<LocalValue?> where Value == Wrapped? {
+    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift.ReferenceWritableKeyPath<Wrapped, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<LocalValue?> where Value == Wrapped? {
       get
     }
-    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift::KeyPath<Wrapped, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<LocalValue?> where Value == Wrapped? {
+    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift.KeyPath<Wrapped, LocalValue>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<LocalValue?> where Value == Wrapped? {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableCollectionProxy<LocalValue> where LocalValue : Swift::Collection {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.ReferenceWritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableCollectionProxy<LocalValue> where LocalValue : Swift.Collection {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::CollectionProxy<LocalValue> where LocalValue : Swift::Collection {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.CollectionProxy<LocalValue> where LocalValue : Swift.Collection {
       get
     }
   }
   @dynamicMemberLookup public struct WritableKeyPathContainer<Value> {
-    internal let resettable: FoundationExtensions::Resettable<Object>
-    internal let keyPath: FunctionalKeyPath::FunctionalKeyPath<Object, Value>
+    internal let resettable: FoundationExtensions.Resettable<Object>
+    internal let keyPath: FunctionalKeyPath.FunctionalKeyPath<Object, Value>
     @discardableResult
-    public func callAsFunction(_ value: Value, operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default) -> FoundationExtensions::Resettable<Object>
+    public func callAsFunction(_ value: Value, operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default) -> FoundationExtensions.Resettable<Object>
     @discardableResult
-    public func callAsFunction(_ operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default, _ action: @escaping (inout Value) -> Swift::Void) -> FoundationExtensions::Resettable<Object>
+    public func callAsFunction(_ operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default, _ action: @escaping (inout Value) -> Swift.Void) -> FoundationExtensions.Resettable<Object>
     @discardableResult
-    public func callAsFunction(_ operation: FoundationExtensions::Resettable<Object>.FoundationExtensions::OperationBehavior = .default, _ action: @escaping (inout Value) -> Swift::Void, undo: @escaping (inout Value) -> Swift::Void) -> FoundationExtensions::Resettable<Object>
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::WritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<LocalValue> {
+    public func callAsFunction(_ operation: FoundationExtensions.Resettable<Object>.OperationBehavior = .default, _ action: @escaping (inout Value) -> Swift.Void, undo: @escaping (inout Value) -> Swift.Void) -> FoundationExtensions.Resettable<Object>
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.WritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<LocalValue> {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<LocalValue> {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<LocalValue> {
       get
     }
-    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift::WritableKeyPath<Wrapped, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableKeyPathContainer<LocalValue?> where Value == Wrapped? {
+    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift.WritableKeyPath<Wrapped, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableKeyPathContainer<LocalValue?> where Value == Wrapped? {
       get
     }
-    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift::KeyPath<Wrapped, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::KeyPathContainer<LocalValue?> where Value == Wrapped? {
+    public subscript<LocalValue, Wrapped>(dynamicMember keyPath: Swift.KeyPath<Wrapped, LocalValue>) -> FoundationExtensions.Resettable<Object>.KeyPathContainer<LocalValue?> where Value == Wrapped? {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::WritableKeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::WritableCollectionProxy<LocalValue> where LocalValue : Swift::Collection {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.WritableKeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.WritableCollectionProxy<LocalValue> where LocalValue : Swift.Collection {
       get
     }
-    public subscript<LocalValue>(dynamicMember keyPath: Swift::KeyPath<Value, LocalValue>) -> FoundationExtensions::Resettable<Object>.FoundationExtensions::CollectionProxy<LocalValue> where LocalValue : Swift::Collection {
+    public subscript<LocalValue>(dynamicMember keyPath: Swift.KeyPath<Value, LocalValue>) -> FoundationExtensions.Resettable<Object>.CollectionProxy<LocalValue> where LocalValue : Swift.Collection {
       get
     }
   }
 }
-extension FunctionalKeyPath::FunctionalKeyPath {
-  public static func getonlyIndex(_ index: Root.Index) -> FunctionalKeyPath::FunctionalKeyPath<Root, Value> where Root : Swift::Collection, Value == Root.Element
-  public static func index(_ index: Root.Index) -> FunctionalKeyPath::FunctionalKeyPath<Root, Value> where Root : Swift::MutableCollection, Value == Root.Element
-  public static func safeIndex(_ index: Swift::Array<Value>.Swift::Index) -> FunctionalKeyPath::FunctionalKeyPath<Root, Value?> where Root == [Value]
+extension FunctionalKeyPath.FunctionalKeyPath {
+  public static func getonlyIndex(_ index: Root.Index) -> FunctionalKeyPath.FunctionalKeyPath<Root, Value> where Root : Swift.Collection, Value == Root.Element
+  public static func index(_ index: Root.Index) -> FunctionalKeyPath.FunctionalKeyPath<Root, Value> where Root : Swift.MutableCollection, Value == Root.Element
+  public static func safeIndex(_ index: Swift.Array<Value>.Index) -> FunctionalKeyPath.FunctionalKeyPath<Root, Value?> where Root == [Value]
 }
-public struct USID : Swift::Equatable, Swift::Hashable, Swift::RawRepresentable, Swift::ExpressibleByStringLiteral, Swift::ExpressibleByStringInterpolation, Swift::LosslessStringConvertible {
-  public let rawValue: Swift::String
-  @inlinable public init(_ uuid: Foundation::UUID = .init()) {
+public struct USID : Swift.Equatable, Swift.Hashable, Swift.RawRepresentable, Swift.ExpressibleByStringLiteral, Swift.ExpressibleByStringInterpolation, Swift.LosslessStringConvertible {
+  public let rawValue: Swift.String
+  @inlinable public init(_ uuid: Foundation.UUID = .init()) {
     self.init(uuid.uuidString)
   }
-  @inlinable public init(stringLiteral value: Swift::String) {
+  @inlinable public init(stringLiteral value: Swift.String) {
     self.init(value)
   }
-  @inlinable public init(_ value: Swift::String) {
+  @inlinable public init(_ value: Swift.String) {
     self.init(rawValue: value)
   }
-  @inlinable public init(usidString value: Swift::String) {
+  @inlinable public init(usidString value: Swift.String) {
     self.init(rawValue: value)
   }
-  @inlinable public init(rawValue value: Swift::String) {
+  @inlinable public init(rawValue value: Swift.String) {
     self.rawValue = value
   }
-  @inlinable public var description: Swift::String {
+  @inlinable public var description: Swift.String {
     get { rawValue }
   }
-  @inlinable public var usidString: Swift::String {
+  @inlinable public var usidString: Swift.String {
     get { rawValue }
   }
-  @inlinable public var intValue: Swift::Int? {
+  @inlinable public var intValue: Swift.Int? {
     get { Int(rawValue) }
   }
-  @inlinable public var uuidValue: Foundation::UUID? {
+  @inlinable public var uuidValue: Foundation.UUID? {
     get { UUID(uuidString: rawValue) }
   }
-  public typealias ExtendedGraphemeClusterLiteralType = Swift::String
-  public typealias RawValue = Swift::String
-  public typealias StringInterpolation = Swift::DefaultStringInterpolation
-  public typealias StringLiteralType = Swift::String
-  public typealias UnicodeScalarLiteralType = Swift::String
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias RawValue = Swift.String
+  public typealias StringInterpolation = Swift.DefaultStringInterpolation
+  public typealias StringLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
 }
-extension FoundationExtensions::USID : Swift::Codable {
-  @inlinable public init(from decoder: any Swift::Decoder) throws {
+extension FoundationExtensions.USID : Swift.Codable {
+  @inlinable public init(from decoder: any Swift.Decoder) throws {
     let container = try decoder.singleValueContainer()
     self.init(rawValue: try container.decode(String.self))
   }
-  @inlinable public func encode(to encoder: any Swift::Encoder) throws {
+  @inlinable public func encode(to encoder: any Swift.Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
 }
-extension FoundationExtensions::USID : Swift::ExpressibleByIntegerLiteral {
-  @inlinable public init(integerLiteral value: Swift::Int) {
+extension FoundationExtensions.USID : Swift.ExpressibleByIntegerLiteral {
+  @inlinable public init(integerLiteral value: Swift.Int) {
     self = .describing(value)
   }
-  public typealias IntegerLiteralType = Swift::Int
+  public typealias IntegerLiteralType = Swift.Int
 }
-extension FoundationExtensions::USID {
-  @inlinable public static func describing<Value>(_ value: Value) -> FoundationExtensions::USID where Value : Swift::CustomStringConvertible {
+extension FoundationExtensions.USID {
+  @inlinable public static func describing<Value>(_ value: Value) -> FoundationExtensions.USID where Value : Swift.CustomStringConvertible {
     return USID(rawValue: String(describing: value))
   }
-  @inlinable public static func hash<Value>(of value: Value) -> FoundationExtensions::USID where Value : Swift::Hashable {
+  @inlinable public static func hash<Value>(of value: Value) -> FoundationExtensions.USID where Value : Swift.Hashable {
     return .describing(value.hashValue)
   }
-  @inlinable public static func dump<T>(_ value: T) -> FoundationExtensions::USID {
+  @inlinable public static func dump<T>(_ value: T) -> FoundationExtensions.USID {
     var buffer = "\(type(of: value))\n"
     Swift.dump(value, to: &buffer)
     return USID(rawValue: buffer)
   }
 }
-extension Swift::String {
-  @inlinable public func usid() -> FoundationExtensions::USID { .init(self) }
+extension Swift.String {
+  @inlinable public func usid() -> FoundationExtensions.USID { .init(self) }
 }
-public struct UnwrappingError<T> : Swift::Error {
+public struct UnwrappingError<T> : Swift.Error {
   public let type: T.Type
-  public let function: Swift::String
-  public let file: Swift::String
-  public let line: Swift::Int
-  public init(_ type: T.Type = T.self, function: Swift::String = #function, file: Swift::String = #file, line: Swift::Int = #line)
-  @inlinable public var localizedDescription: Swift::String {
+  public let function: Swift.String
+  public let file: Swift.String
+  public let line: Swift.Int
+  public init(_ type: T.Type = T.self, function: Swift.String = #function, file: Swift.String = #file, line: Swift.Int = #line)
+  @inlinable public var localizedDescription: Swift.String {
     get {
     "Could not unwrap value of type \(type)."
   }
   }
-  @inlinable public var debugDescription: Swift::String {
+  @inlinable public var debugDescription: Swift.String {
     get {
     localizedDescription
       .appending("\n{")
@@ -823,5 +823,5 @@ public struct UnwrappingError<T> : Swift::Error {
   }
   }
 }
-extension FoundationExtensions::Resettable.FoundationExtensions::OperationBehavior : Swift::Equatable {}
-extension FoundationExtensions::Resettable.FoundationExtensions::OperationBehavior : Swift::Hashable {}
+extension FoundationExtensions.Resettable.OperationBehavior : Swift.Equatable {}
+extension FoundationExtensions.Resettable.OperationBehavior : Swift.Hashable {}
