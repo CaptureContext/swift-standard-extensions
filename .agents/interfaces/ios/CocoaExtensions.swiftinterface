@@ -1,0 +1,594 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -swift-version 5 -O -module-name CocoaExtensions
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
+import CocoaAliases
+import Combine
+@_exported import CombineCocoa
+import CoreGraphics
+import DeclarativeConfiguration
+import Foundation
+@_exported import FoundationExtensions
+import FunctionalClosures
+import Prelude
+import Swift
+@_exported import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol SupplimentaryItemKindProvidingType {
+  static var supplimentaryItemKind: Swift.String { get }
+}
+public protocol ReuseIDProvidingType {
+  static var reuseID: Swift.String { get }
+}
+extension CocoaExtensions.ReuseIDProvidingType {
+  public static var reuseID: Swift.String {
+    get
+  }
+}
+extension UIKit.UICollectionReusableView : CocoaExtensions.ReuseIDProvidingType {
+}
+extension UIKit.UICollectionViewCell : CocoaExtensions.ReuseIDProvidingType {
+}
+extension UIKit.UITableViewCell : CocoaExtensions.ReuseIDProvidingType {
+}
+extension UIKit.UITableView {
+  @_Concurrency.MainActor @preconcurrency public func register<Cell>(_ type: Cell.Type) where Cell : UIKit.UITableViewCell
+  @_Concurrency.MainActor @preconcurrency public func dequeueReusableCell<Cell>(_ type: Cell.Type, at indexPath: Foundation.IndexPath) -> Cell! where Cell : UIKit.UITableViewCell
+}
+extension UIKit.UICollectionView {
+  @_Concurrency.MainActor @preconcurrency public func registerSupplimentaryItem<SupplimentaryItem>(_ type: SupplimentaryItem.Type?, ofKind kind: Swift.String) where SupplimentaryItem : UIKit.UICollectionReusableView
+  @_Concurrency.MainActor @preconcurrency public func registerSupplimentaryItem<SupplimentaryItem>(_ type: SupplimentaryItem.Type?) where SupplimentaryItem : UIKit.UICollectionReusableView, SupplimentaryItem : CocoaExtensions.SupplimentaryItemKindProvidingType
+  @_Concurrency.MainActor @preconcurrency public func register<Cell>(_ type: Cell.Type?) where Cell : UIKit.UICollectionViewCell
+  @_Concurrency.MainActor @preconcurrency public func dequeueSupplimentaryItem<SupplimentaryItem>(_ type: SupplimentaryItem.Type, ofKind kind: Swift.String, at indexPath: Foundation.IndexPath) -> SupplimentaryItem where SupplimentaryItem : CocoaExtensions.ReuseIDProvidingType
+  @_Concurrency.MainActor @preconcurrency public func dequeueSupplimentaryItem<SupplimentaryItem>(_ type: SupplimentaryItem.Type, at indexPath: Foundation.IndexPath) -> SupplimentaryItem where SupplimentaryItem : UIKit.UICollectionReusableView, SupplimentaryItem : CocoaExtensions.SupplimentaryItemKindProvidingType
+  @_Concurrency.MainActor @preconcurrency public func dequeueReusableCell<Cell>(_ type: Cell.Type = Cell.self, at indexPath: Foundation.IndexPath) -> Cell! where Cell : UIKit.UICollectionViewCell
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency final public class CollectionView<CellView, SupplimentaryView> : CocoaExtensions.CustomCocoaCollectionView where CellView : UIKit.UIView, SupplimentaryView : UIKit.UIView {
+  @available(*, deprecated, message: "Use `.customDataSource` instead")
+  @_Concurrency.MainActor @preconcurrency @objc override final public var dataSource: (any UIKit.UICollectionViewDataSource)? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final public let customDataSource: CocoaExtensions.CollectionViewDataSource<CellView, SupplimentaryView>
+  @available(*, deprecated, message: "Use `.customPrefetchDataSource` instead")
+  @_Concurrency.MainActor @preconcurrency @objc override final public var prefetchDataSource: (any UIKit.UICollectionViewDataSourcePrefetching)? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final public let customPrefetchDataSource: CocoaExtensions.PrefetchingDataSource
+  @available(*, deprecated, message: "Use `.publishers.<delegate_publisher>` instead")
+  @_Concurrency.MainActor @preconcurrency @objc override final public var delegate: (any UIKit.UICollectionViewDelegate)? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency override final public func _init()
+  @_Concurrency.MainActor @preconcurrency final public func dequeueReusableCellView(for indexPath: Foundation.IndexPath) -> CellView
+  @_Concurrency.MainActor @preconcurrency final public func cellViewForItem(at indexPath: Foundation.IndexPath) -> CellView?
+  @_Concurrency.MainActor @preconcurrency final public func dequeueSupplimentaryItemView(ofKind kind: Swift.String, at indexPath: Foundation.IndexPath) -> SupplimentaryView
+  @_Concurrency.MainActor @preconcurrency final public func supplementaryItemView(forElementKind kind: Swift.String, at indexPath: Foundation.IndexPath) -> SupplimentaryView?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect, collectionViewLayout layout: CocoaAliases.CocoaCollectionViewLayout)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency final public class CollectionViewCell<Content> : CocoaExtensions.CustomCollectionViewCell where Content : UIKit.UIView {
+  @available(*, deprecated, message: "Use cell.content instead")
+  @_Concurrency.MainActor @preconcurrency @objc override final public var contentView: UIKit.UIView {
+    @objc get
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final public let content: Content
+  @_Concurrency.MainActor @preconcurrency override final public func _init()
+  @_Concurrency.MainActor @preconcurrency @objc override final public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency public class CollectionViewDataSource<CellView, SupplimentaryView> : ObjectiveC.NSObject, CocoaAliases.CocoaCollectionViewDataSource where CellView : UIKit.UIView, SupplimentaryView : UIKit.UIView {
+  @FunctionalClosures.DataSource<Swift.Void, Swift.Int> @_projectedValueProperty($numberOfSections) @_Concurrency.MainActor @preconcurrency public var numberOfSections: FunctionalClosures.DataSource<Swift.Void, Swift.Int>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _numberOfSections: FunctionalClosures.DataSource<Swift.Void, Swift.Int>
+  @_Concurrency.MainActor @preconcurrency public var $numberOfSections: (Swift.Void) -> Swift.Int {
+    get
+    set
+  }
+  @FunctionalClosures.DataSource<Swift.Int, Swift.Int> @_projectedValueProperty($numberOfItemsInSection) @_Concurrency.MainActor @preconcurrency public var numberOfItemsInSection: FunctionalClosures.DataSource<Swift.Int, Swift.Int>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _numberOfItemsInSection: FunctionalClosures.DataSource<Swift.Int, Swift.Int>
+  @_Concurrency.MainActor @preconcurrency public var $numberOfItemsInSection: (Swift.Int) -> Swift.Int {
+    get
+    set
+  }
+  @FunctionalClosures.Handler2<CocoaExtensions.CollectionViewCell<CellView>, Foundation.IndexPath> @_projectedValueProperty($reconfigureCell) @_Concurrency.MainActor @preconcurrency public var reconfigureCell: FunctionalClosures.Handler2<CocoaExtensions.CollectionViewCell<CellView>, Foundation.IndexPath>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _reconfigureCell: FunctionalClosures.Handler2<CocoaExtensions.CollectionViewCell<CellView>, Foundation.IndexPath>
+  @_Concurrency.MainActor @preconcurrency public var $reconfigureCell: ((CocoaExtensions.CollectionViewCell<CellView>, Foundation.IndexPath) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler3<CocoaExtensions.CollectionReusableView<SupplimentaryView>, Swift.String, Foundation.IndexPath> @_projectedValueProperty($reconfigureSupplimentaryView) @_Concurrency.MainActor @preconcurrency public var reconfigureSupplimentaryView: FunctionalClosures.Handler3<CocoaExtensions.CollectionReusableView<SupplimentaryView>, Swift.String, Foundation.IndexPath>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _reconfigureSupplimentaryView: FunctionalClosures.Handler3<CocoaExtensions.CollectionReusableView<SupplimentaryView>, Swift.String, Foundation.IndexPath>
+  @_Concurrency.MainActor @preconcurrency public var $reconfigureSupplimentaryView: ((CocoaExtensions.CollectionReusableView<SupplimentaryView>, Swift.String, Foundation.IndexPath) -> Swift.Void)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc public func collectionView(_ collectionView: CocoaAliases.CocoaCollectionView, numberOfItemsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc public func numberOfSections(in collectionView: CocoaAliases.CocoaCollectionView) -> Swift.Int
+  @_Concurrency.MainActor @preconcurrency @objc public func collectionView(_ collectionView: CocoaAliases.CocoaCollectionView, cellForItemAt indexPath: Foundation.IndexPath) -> CocoaAliases.CocoaCollectionViewCell
+  @_Concurrency.MainActor @preconcurrency @objc public func collectionView(_ collectionView: CocoaAliases.CocoaCollectionView, viewForSupplementaryElementOfKind kind: Swift.String, at indexPath: Foundation.IndexPath) -> CocoaAliases.CocoaCollectionReusableView
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency public class CollectionReusableView<Content> : CocoaExtensions.CustomCollectionReusableView where Content : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final public let content: Content
+  @_Concurrency.MainActor @preconcurrency override public func _init()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension CocoaExtensions.CustomCocoaViewController : CocoaExtensions.NavigationControllerDynamicOverridable {
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomCocoaViewController : CocoaAliases.CocoaViewController, CocoaExtensions.CustomCocoaViewControllerProtocol {
+  @_hasStorage @_Concurrency.MainActor @preconcurrency @_hasInitialValue open var isVisible: Swift.Bool {
+    get
+  }
+  @FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?> @_Concurrency.MainActor @preconcurrency @_projectedValueProperty($overrideNavigationController) public var overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>
+  @_Concurrency.MainActor @preconcurrency public var $overrideNavigationController: ((Swift.Void) -> UIKit.UINavigationController?)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var navigationController: UIKit.UINavigationController? {
+    @objc get
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onDismiss) @_Concurrency.MainActor @preconcurrency public var onDismiss: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onDismiss: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onDismiss: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLoad) @_Concurrency.MainActor @preconcurrency public var onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLoad: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillAppear) @_Concurrency.MainActor @preconcurrency public var onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidAppear) @_Concurrency.MainActor @preconcurrency public var onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillDisappear) @_Concurrency.MainActor @preconcurrency public var onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidDisappear) @_Concurrency.MainActor @preconcurrency public var onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillLayout) @_Concurrency.MainActor @preconcurrency public var onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLayout) @_Concurrency.MainActor @preconcurrency public var onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func loadView()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func dismiss(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+extension CocoaExtensions.CustomNavigationController : CocoaExtensions.NavigationControllerDynamicOverridable {
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomNavigationController : UIKit.UINavigationController, CocoaExtensions.CustomCocoaViewControllerProtocol {
+  @_hasStorage @_Concurrency.MainActor @preconcurrency @_hasInitialValue open var isVisible: Swift.Bool {
+    get
+  }
+  @FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?> @_Concurrency.MainActor @preconcurrency @_projectedValueProperty($overrideNavigationController) public var overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>
+  @_Concurrency.MainActor @preconcurrency public var $overrideNavigationController: ((Swift.Void) -> UIKit.UINavigationController?)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var navigationController: UIKit.UINavigationController? {
+    @objc get
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onDismiss) @_Concurrency.MainActor @preconcurrency public var onDismiss: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onDismiss: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onDismiss: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLoad) @_Concurrency.MainActor @preconcurrency public var onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLoad: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillAppear) @_Concurrency.MainActor @preconcurrency public var onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidAppear) @_Concurrency.MainActor @preconcurrency public var onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillDisappear) @_Concurrency.MainActor @preconcurrency public var onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidDisappear) @_Concurrency.MainActor @preconcurrency public var onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillLayout) @_Concurrency.MainActor @preconcurrency public var onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLayout) @_Concurrency.MainActor @preconcurrency public var onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func dismiss(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(rootViewController: UIKit.UIViewController)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(navigationBarClass: Swift.AnyClass?, toolbarClass: Swift.AnyClass?)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+extension CocoaExtensions.CustomTabBarController : CocoaExtensions.NavigationControllerDynamicOverridable {
+}
+@objc @_Concurrency.MainActor @preconcurrency open class CustomTabBarController : UIKit.UITabBarController, CocoaExtensions.CustomCocoaViewControllerProtocol {
+  @_hasStorage @_Concurrency.MainActor @preconcurrency @_hasInitialValue open var isVisible: Swift.Bool {
+    get
+  }
+  @FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?> @_Concurrency.MainActor @preconcurrency @_projectedValueProperty($overrideNavigationController) public var overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>
+  @_Concurrency.MainActor @preconcurrency public var $overrideNavigationController: ((Swift.Void) -> UIKit.UINavigationController?)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open var navigationController: UIKit.UINavigationController? {
+    @objc get
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onDismiss) @_Concurrency.MainActor @preconcurrency public var onDismiss: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onDismiss: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onDismiss: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLoad) @_Concurrency.MainActor @preconcurrency public var onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLoad: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillAppear) @_Concurrency.MainActor @preconcurrency public var onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidAppear) @_Concurrency.MainActor @preconcurrency public var onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidAppear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillDisappear) @_Concurrency.MainActor @preconcurrency public var onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidDisappear) @_Concurrency.MainActor @preconcurrency public var onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidDisappear: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewWillLayout) @_Concurrency.MainActor @preconcurrency public var onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewWillLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @FunctionalClosures.Handler1<Swift.Void> @_projectedValueProperty($onViewDidLayout) @_Concurrency.MainActor @preconcurrency public var onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>.Container {
+    get
+    set
+    _modify
+  }
+  @_Concurrency.MainActor @preconcurrency @_hasInitialValue final private var _onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>
+  @_Concurrency.MainActor @preconcurrency public var $onViewDidLayout: ((Swift.Void) -> Swift.Void)? {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewWillLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func viewDidLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func dismiss(animated: Swift.Bool, completion: (() -> Swift.Void)? = nil)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class PrefetchingDataSource : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @_hasInitialValue final private let prefetchRequestSubject: Combine.PassthroughSubject<[Foundation.IndexPath], Swift.Never>
+  public var prefetchRequestPublisher: Combine.AnyPublisher<[Foundation.IndexPath], Swift.Never> {
+    get
+  }
+  @_hasInitialValue final private let cancelPrefetchRequestSubject: Combine.PassthroughSubject<[Foundation.IndexPath], Swift.Never>
+  public var cancelPrefetchRequestPublisher: Combine.AnyPublisher<[Foundation.IndexPath], Swift.Never> {
+    get
+  }
+  @objc deinit
+}
+extension CocoaExtensions.PrefetchingDataSource : UIKit.UICollectionViewDataSourcePrefetching, UIKit.UITableViewDataSourcePrefetching {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, prefetchRowsAt indexPaths: [Foundation.IndexPath])
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, prefetchItemsAt indexPaths: [Foundation.IndexPath])
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func tableView(_ tableView: UIKit.UITableView, cancelPrefetchingForRowsAt indexPaths: [Foundation.IndexPath])
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func collectionView(_ collectionView: UIKit.UICollectionView, cancelPrefetchingForItemsAt indexPaths: [Foundation.IndexPath])
+}
+public protocol CustomLoadableView : UIKit.UIView {
+  func didLoad(to controller: CocoaAliases.CocoaViewController)
+}
+@propertyWrapper public struct CustomView<ContentView> : Swift.CustomReflectable where ContentView : UIKit.UIView {
+  @FunctionalClosures.Handler1<ContentView> @_projectedValueProperty($onViewDidLoad) public var onViewDidLoad: FunctionalClosures.Handler1<ContentView>.Container {
+    get
+    nonmutating set
+    nonmutating _modify
+  }
+  @_hasInitialValue private var _onViewDidLoad: FunctionalClosures.Handler1<ContentView>
+  public var $onViewDidLoad: ((ContentView) -> Swift.Void)? {
+    get
+    nonmutating set
+  }
+  public var customMirror: Swift.Mirror {
+    get
+  }
+  public init()
+  @available(*, unavailable, message: "@CustomView can only be applied to classes")
+  public var wrappedValue: ContentView {
+    get
+    set
+  }
+  public static subscript<Controller>(_enclosingInstance controller: Controller, wrapped wrappedKeyPath: Swift.ReferenceWritableKeyPath<Controller, ContentView>, storage storageKeyPath: Swift.ReferenceWritableKeyPath<Controller, CocoaExtensions.CustomView<ContentView>>) -> ContentView where Controller : UIKit.UIViewController {
+    get
+    set
+  }
+  public func load(_ contentView: ContentView = .init(), to controller: CocoaAliases.CocoaViewController, onWillSet: (ContentView) -> Swift.Void = { _ in }, onDidSet: (ContentView) -> Swift.Void = { _ in })
+}
+extension UIKit.UIViewController {
+  @discardableResult
+  @_Concurrency.MainActor @preconcurrency public func tryLoadCustomContentView() -> Swift.Bool
+}
+public protocol CustomCocoaViewControllerProtocol : UIKit.UIViewController, CocoaExtensions.CustomNSObjectProtocol {
+  var onDismiss: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewDidLoad: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewWillAppear: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewDidAppear: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewWillDisappear: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewDidDisappear: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewWillLayout: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+  var onViewDidLayout: FunctionalClosures.Handler1<Swift.Void>.Container { get set }
+}
+public protocol CustomCocoaViewProtocol : UIKit.UIView, CocoaExtensions.CustomNSObjectProtocol {
+}
+public protocol CustomNSObjectProtocol : ObjectiveC.NSObject {
+  func _init()
+}
+public protocol NavigationControllerDynamicOverridable {
+  var overrideNavigationController: FunctionalClosures.OptionalDataSource<Swift.Void, UIKit.UINavigationController?>.Container { get set }
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomCocoaView : CocoaAliases.CocoaView, CocoaExtensions.CustomCocoaViewProtocol {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomCocoaCollectionView : CocoaAliases.CocoaCollectionView, CocoaExtensions.CustomCocoaViewProtocol {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect, collectionViewLayout layout: CocoaAliases.CocoaCollectionViewLayout)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomCollectionViewCell : CocoaAliases.CocoaCollectionViewCell, CocoaExtensions.CustomCocoaViewProtocol {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class CustomCollectionReusableView : CocoaAliases.CocoaCollectionReusableView, CocoaExtensions.CustomCocoaViewProtocol {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency open func _init()
+  @objc deinit
+}
+extension UIKit.UIApplication {
+  @_Concurrency.MainActor @preconcurrency public var firstKeyWindow: CocoaAliases.CocoaWindow? {
+    get
+  }
+}
+extension UIKit.UICollectionViewLayout {
+  @_Concurrency.MainActor @preconcurrency public static func compositional(_ layout: CocoaAliases.CocoaCollectionViewCompositionalLayout) -> CocoaAliases.CocoaCollectionViewLayout
+  @_Concurrency.MainActor @preconcurrency public static func flow(_ layout: CocoaAliases.CocoaCollectionViewFlowLayout) -> CocoaAliases.CocoaCollectionViewLayout
+}
+extension CoreFoundation.CGPoint {
+  public init(_ offset: CoreFoundation.CGSize)
+}
+extension CoreFoundation.CGSize {
+  public init(_ point: CoreFoundation.CGPoint)
+  public static func square(_ length: CoreFoundation.CGFloat) -> CoreFoundation.CGSize
+  public var center: CoreFoundation.CGPoint {
+    get
+  }
+}
+extension CocoaExtensions.CollectionViewDataSource : Swift.Sendable {}

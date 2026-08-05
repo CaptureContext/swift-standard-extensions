@@ -1,0 +1,71 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.3.3 effective-5.10 (swiftlang-6.3.3.1.3 clang-2100.1.1.101)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -swift-version 5 -O -module-name SwiftUIExtensions
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.3.3
+import CocoaAliases
+@_exported import CocoaExtensions
+import Swift
+@_exported import SwiftUI
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+@_Concurrency.MainActor @preconcurrency public struct CocoaComponent<Representable> : SwiftUICore.View where Representable : SwiftUICore.View {
+  @_Concurrency.MainActor @preconcurrency internal let content: () -> Representable
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s17SwiftUIExtensions14CocoaComponentV4bodyQrvp", 0) __<Representable>
+}
+@_Concurrency.MainActor @preconcurrency public struct _CocoaViewRepresentable<Content, Coordinator> : CocoaAliases.CocoaViewRepresentable where Content : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency internal let content: (SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>.Context) -> Content
+  @_Concurrency.MainActor @preconcurrency internal let update: (Content, SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>.Context) -> Swift.Void
+  @_Concurrency.MainActor @preconcurrency internal let coordinator: () -> Coordinator
+  @_Concurrency.MainActor @preconcurrency public func makeCocoaView(context: SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>.Context) -> Content
+  @_Concurrency.MainActor @preconcurrency public func updateCocoaView(_ content: Content, context: SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>.Context)
+  @_Concurrency.MainActor @preconcurrency public func makeCoordinator() -> Coordinator
+  public typealias Body = Swift.Never
+  public typealias CocoaViewType = Content
+  public typealias UIViewType = Content
+}
+@_Concurrency.MainActor @preconcurrency public struct _CocoaViewControllerRepresentable<Content, Coordinator> : CocoaAliases.CocoaViewControllerRepresentable where Content : UIKit.UIViewController {
+  @_Concurrency.MainActor @preconcurrency internal let content: (SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>.Context) -> Content
+  @_Concurrency.MainActor @preconcurrency internal let update: (Content, SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>.Context) -> Swift.Void
+  @_Concurrency.MainActor @preconcurrency internal let coordinator: () -> Coordinator
+  @_Concurrency.MainActor @preconcurrency public func makeCocoaViewController(context: SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>.Context) -> Content
+  @_Concurrency.MainActor @preconcurrency public func updateCocoaViewController(_ content: Content, context: SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>.Context)
+  @_Concurrency.MainActor @preconcurrency public func makeCoordinator() -> Coordinator
+  public typealias Body = Swift.Never
+  public typealias CocoaViewControllerType = Content
+  public typealias UIViewControllerType = Content
+}
+extension SwiftUIExtensions.CocoaComponent {
+  @_Concurrency.MainActor @preconcurrency public init<Content, Coordinator>(content: @escaping (Representable.Context) -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void, coordinator: @escaping () -> Coordinator) where Representable == SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>, Content : UIKit.UIView
+  @_Concurrency.MainActor @preconcurrency public init<Content, Coordinator>(_ content: @autoclosure @escaping () -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void, coordinator: @escaping () -> Coordinator) where Representable == SwiftUIExtensions._CocoaViewRepresentable<Content, Coordinator>, Content : UIKit.UIView
+  @_Concurrency.MainActor @preconcurrency public init<Content>(content: @escaping (Representable.Context) -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void = { _, _ in }) where Representable == SwiftUIExtensions._CocoaViewRepresentable<Content, ()>, Content : UIKit.UIView
+  @_Concurrency.MainActor @preconcurrency public init<Content>(_ content: @autoclosure @escaping () -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void = { _, _ in }) where Representable == SwiftUIExtensions._CocoaViewRepresentable<Content, ()>, Content : UIKit.UIView
+}
+extension SwiftUIExtensions.CocoaComponent {
+  @_Concurrency.MainActor @preconcurrency public init<Content, Coordinator>(content: @escaping (Representable.Context) -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void, coordinator: @escaping () -> Coordinator) where Representable == SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>, Content : UIKit.UIViewController
+  @_Concurrency.MainActor @preconcurrency public init<Content, Coordinator>(_ content: @autoclosure @escaping () -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void, coordinator: @escaping () -> Coordinator) where Representable == SwiftUIExtensions._CocoaViewControllerRepresentable<Content, Coordinator>, Content : UIKit.UIViewController
+  @_Concurrency.MainActor @preconcurrency public init<Content>(content: @escaping (Representable.Context) -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void = { _, _ in }) where Representable == SwiftUIExtensions._CocoaViewControllerRepresentable<Content, ()>, Content : UIKit.UIViewController
+  @_Concurrency.MainActor @preconcurrency public init<Content>(_ content: @autoclosure @escaping () -> Content, update: @escaping (Content, Representable.Context) -> Swift.Void = { _, _ in }) where Representable == SwiftUIExtensions._CocoaViewControllerRepresentable<Content, ()>, Content : UIKit.UIViewController
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor @preconcurrency open class UIHostingView<RootView> : CocoaExtensions.CustomCocoaView where RootView : SwiftUICore.View {
+  @_Concurrency.MainActor @preconcurrency final public let controller: SwiftUI.UIHostingController<RootView>
+  @_Concurrency.MainActor @preconcurrency convenience public init(@SwiftUICore.ViewBuilder content: () -> RootView)
+  @_Concurrency.MainActor @preconcurrency public init(rootView: RootView)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @_Concurrency.MainActor @preconcurrency public var rootView: RootView {
+    get
+    set
+  }
+  @_Concurrency.MainActor @preconcurrency override open func _init()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic open func layoutSubviews()
+  @objc deinit
+}
+extension SwiftUIExtensions.CocoaComponent : Swift.Sendable {}
+extension SwiftUIExtensions._CocoaViewRepresentable : Swift.Sendable {}
+extension SwiftUIExtensions._CocoaViewControllerRepresentable : Swift.Sendable {}
+extension SwiftUIExtensions.UIHostingView : Swift.Sendable {}
